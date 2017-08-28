@@ -1,1 +1,1 @@
-docker build -t tranbatungbk/nodeapp .
+docker build -t tranbatungbk/nodejs-api .
