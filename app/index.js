@@ -1,19 +1,13 @@
-var app = require('express')();
-var MongoClient = require('mongodb').MongoClient;
-var http = require('http').Server(app);
+var express = require('express');        // call express
+var app = express();                 // define our app using express
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.get('/', function(req, res){
-  res.send('<h1>Hello world</h1>');
-});
-
-http.listen(3006, function(){
-  	console.log('listening on *:3006');
-
-	// Connect to the db
-	MongoClient.connect("mongodb://103.53.231.204:27017/test", function(err, db) {
-		console.log("tung", err, db);
-	  if(!err) {
-	    console.log("We are connected");
-	  }
-	});
-});
+var port = process.env.PORT || 3006;        // set our port
+var mongodb = require('./models/mongo');
+mongodb.connect();
+var routes = require('./routes/routes');
+routes(app, express); //register the route
+app.listen(port);
+console.log('Server started on port ' + port);
