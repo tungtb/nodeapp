@@ -1,0 +1,27 @@
+version: "2"
+services:
+ web:
+  build: .
+  volumes:
+   - ./:/app
+  ports:
+   - "3000:3000"
+  links:
+   - mongo
+ mongoexpress:
+  image: mongo-express
+  restart: always
+  environment:
+   ME_CONFIG_BASICAUTH_USERNAME: tungtb
+   ME_CONFIG_BASICAUTH_PASSWORD: tungtb1234
+  ports: 
+   - "28081:8081"
+  links:
+   - mongo
+ mongo:
+  image: mongo
+  restart: always
+  volumes:
+   - /mongodb_data:/data/db
+  ports:
+   - "27017:27017"
